@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      window.dispText = ""
+      window.tmpNum = ""
+      window.stack = []
+      window.inputNum = function inputNum(n) {
+        tmpNum += n.toString(10)
+      }
+      window.dofunc = function dofunc(k) {
+        if (k == "E") {
+          stack.push(tmpNum)
+          tmpNum = ""
+        } else {
+          var tmpRes = 0
+          var tmpStack = stack.reverse()
+          if (k == "+") {
+            tmpRes = parseInt(tmpStack[1])+parseInt(tmpStack[0])
+          } else if (k == "-") {
+            tmpRes = parseInt(tmpStack[1])-parseInt(tmpStack[0])
+          } else if (k == "*") {
+            tmpRes = parseInt(tmpStack[1])*parseInt(tmpStack[0])
+          } else if (k == "/") {
+            tmpRes = parseInt(tmpStack[1])/parseInt(tmpStack[0])
+          }
+          stack = tmpStack.slice(2).reverse()
+          stack.push(tmpRes)
+        }
+        //
+        dispText = "["
+        for(let e of stack) {
+          dispText += '"'+e+'", '
+        }
+        dispText = dispText.replace(/,\s*$/, "");
+        dispText += "]"
+        document.getElementById("dispText").innerHTML = dispText
+        //
+      }
+    </script>
+    <style>
+      table , td, th {
+        border: 1px solid #595959;
+        border-collapse: collapse;
+      }
+      td, th {
+        padding: 3px;
+        width: 30px;
+        height: 25px;
+      }
+      th {
+        background: #f0e6cc;
+      }
+      .even {
+        background: #fbf8f0;
+      }
+      .odd {
+        background: #fefcf9;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <dev id="dispText">[]</div>
+        <table>
+            <tbody>
+                <tr>
+                    <td><button onClick="inputNum(1)">1</button></td>
+                    <td><button onClick="inputNum(2)">2</button></td>
+                    <td><button onClick="inputNum(3)">3</button></td>
+                    <td><button onClick="dofunc('+')">+</button></td>
+                    <td rowspan="2"><button onClick="dofunc('=')">=</button></td>
+                </tr>
+                <tr>
+                    <td><button onClick="inputNum(4)">4</button></td>
+                    <td><button onClick="inputNum(5)">5</button></td>
+                    <td><button onClick="inputNum(6)">6</button></td>
+                    <td><button onClick="dofunc('-')">-</button></td>
+                </tr>
+                <tr>
+                    <td><button onClick="inputNum(7)">7</button></td>
+                    <td><button onClick="inputNum(8)">8</button></td>
+                    <td><button onClick="inputNum(9)">9</button></td>
+                    <td><button onClick="dofunc('*')">*</button></td>
+                    <td rowspan="2"><button onClick="dofunc('E')">Enter</button></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button onClick="inputNum(0)">0</button></td>
+                    <td></td>
+                    <td><button onClick="dofunc('/')">/</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </body>
+</html>
